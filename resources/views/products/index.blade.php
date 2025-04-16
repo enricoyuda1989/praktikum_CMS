@@ -4,35 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Barang</title>
-    <!-- Link ke Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
-    <div class="container mt-5">
+    <div class="container py-5">
         <h1 class="text-center mb-4">Daftar Barang</h1>
 
-        <!-- Tombol Tambah Barang -->
-        <div class="mb-4">
-            <a href="{{ route('products.create') }}" class="btn btn-primary">➕ Tambah Barang</a>
+        <div class="d-flex justify-content-start mb-3">
+            <a href="{{ route('products.create') }}" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Tambah Barang
+            </a>
         </div>
 
-        <!-- Daftar Produk -->
-        @if (count($products) > 0)
-            <ul class="list-group">
-                @foreach ($products as $id => $product)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="{{ route('products.show', $id) }}" class="text-decoration-none text-primary">{{ $product['name'] }}</a>
-                    </li>
-                @endforeach
-            </ul>
-        @else
-            <p class="text-center text-muted">Belum ada produk ditambahkan.</p>
-        @endif
+        <div class="list-group">
+            @foreach ($products as $product)
+                <a href="{{ route('products.show', $product['id']) }}" class="list-group-item list-group-item-action">
+                    {{ $product['name'] }}
+                </a>
+            @endforeach
+        </div>
     </div>
 
-    <!-- Link ke Bootstrap JS dan Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 </body>
 </html>

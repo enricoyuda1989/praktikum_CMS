@@ -1,64 +1,26 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Support\Facades\Storage;
 
 class Product
 {
-    private static function path()
+    protected static function getDummyData()
     {
-        return storage_path('app/products.json');
-    }
-
-    private static function read()
-    {
-        if (!file_exists(self::path())) return [];
-
-        $content = file_get_contents(self::path());
-        return json_decode($content, true) ?? [];
-    }
-
-    private static function write($products)
-    {
-        file_put_contents(self::path(), json_encode($products, JSON_PRETTY_PRINT));
+        return [
+            ['id' => '1', 'name' => 'Laptop ASUS Vivobook 15', 'category' => 'Laptop', 'stock' => 300, 'price' => 10999000, 'description' => 'Intel Core i5, RAM 8GB, SSD 512GB, Layar 15.6" FHD'],
+            ['id' => '2', 'name' => 'SSD Samsung 870 EVO 500GB', 'category' => 'Storage', 'stock' => 15, 'price' => 899000, 'description' => 'SSD SATA III, kecepatan baca 560MB/s, tulis 530MB/s'],
+            ['id' => '3', 'name' => 'Router TP-Link AX-10', 'category' => 'Jaringan', 'stock' => 18, 'price' => 1200000, 'description' => 'Wi-Fi 6, Dual Band, Kecepatan hingga 1.5Gbps'],
+        ];
     }
 
     public static function all()
     {
-        return self::read();
+        return collect(self::getDummyData());
     }
+
 
     public static function find($id)
     {
-        $products = self::read();
-        return $products[$id] ?? null;
-    }
-
-    public static function update($id, $data)
-    {
-        $products = self::read();
-
-        if (isset($products[$id])) {
-            $products[$id] = array_merge($products[$id], $data);
-            self::write($products);
-        }
-    }
-    
-    public static function create($data)
-    {
-    $products = self::read();
-    $id = count($products) > 0 ? max(array_keys($products)) + 1 : 1;
-    $data['id'] = $id;
-    $products[$id] = $data;
-    self::write($products);
-    }
-
-    public static function delete($id)
-    {
-        $products = self::read();
-        if (isset($products[$id])) {
-            unset($products[$id]);
-            self::write($products);
-        }
+        return collect(self::getDummyData())->firstWhere('id', $id);
     }
 }
