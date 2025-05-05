@@ -14,7 +14,7 @@
             <p><strong>Deskripsi:</strong> {{ $product['description'] }}</p>
             <p><strong>Stok:</strong> {{ $product['stock'] }}</p>
             <p><strong>Harga:</strong> Rp {{ number_format($product['price'], 0, ',', '.') }}</p>
-            <p><strong>Kategori:</strong> {{ $product['category'] }}</p>
+            <p><strong>Kategori:</strong> {{ $product['category_id'] }}</p>
         </div>
     </div>
 
