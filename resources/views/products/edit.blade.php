@@ -26,8 +26,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="category" class="form-label">Kategori:</label>
-            <input type="text" class="form-control" name="category" id="category" value="{{ old('category', $product['category']) }}">
+            <label for="category_id" class="form-label">Kategori:</label>
+            <input type="text" class="form-control" name="category_id" id="category_id" value="{{ old('category_id', $product['category_id']) }}">
         </div>
 
         <div class="mb-3">

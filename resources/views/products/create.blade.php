@@ -18,9 +18,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="category" class="form-label">Kategori:</label>
-                    <input type="text" id="category" name="category" class="form-control" value="{{ old('category') }}" required>
-                    @error('category') <div class="text-danger">{{ $message }}</div> @enderror
+                    <label for="category_id" class="form-label">Kategori:</label>
+                    <input type="text" id="category_id" name="category_id" class="form-control" value="{{ old('category_id') }}" required>
+                    @error('category_id') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="mb-3">
