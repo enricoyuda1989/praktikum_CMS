@@ -6,6 +6,12 @@
 <div class="container py-5">
     <h1 class="text-center mb-4">{{ $product['name'] }}</h1>
 
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
     <div class="card p-4 shadow-sm">
         <p><strong>Deskripsi:</strong> {{ $product['description'] }}</p>
         <p><strong>Stok:</strong> {{ $product['stock'] }}</p>

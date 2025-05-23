@@ -31,17 +31,26 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'category_id' => 'required',
-            'stock' => 'required|numeric',
-            'price' => 'required|numeric',
-            'description' => 'required',
-        ]);
+    $request->validate([
+        'name' => 'required',
+        'category_id' => 'required|numeric',
+        'stock' => 'required|numeric',
+        'price' => 'required|numeric',
+        'description' => 'required',
+    ], [
+        'name.required' => 'Nama wajib diisi!',
+        'category_id.required' => 'Kategori wajib diisi!',
+        'stock.required' => 'Stok wajib diisi!',
+        'stock.numeric' => 'Stok harus berupa angka!',
+        'price.required' => 'Harga wajib diisi!',
+        'price.numeric' => 'Harga harus berupa angka!',
+        'description.required' => 'Deskripsi wajib diisi!',
+        'numeric' => 'Nilai pada kolom :attribute harus berupa angka.',
+    ]);
 
-        Product::create($request->all());
+    Product::create($request->all());
 
-        return redirect()->route('products.index');
+    return redirect()->route('products.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -59,16 +68,25 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|numeric',
             'stock' => 'required|numeric',
             'price' => 'required|numeric',
             'description' => 'required',
+        ], [
+            'name.required' => 'Nama wajib diisi!',
+            'category_id.required' => 'Kategori wajib diisi!',
+            'stock.required' => 'Stok wajib diisi!',
+            'stock.numeric' => 'Stok harus berupa angka!',
+            'price.required' => 'Harga wajib diisi!',
+            'price.numeric' => 'Harga harus berupa angka!',
+            'description.required' => 'Deskripsi wajib diisi!',
+            'numeric' => 'Nilai pada kolom :attribute harus berupa angka.',
         ]);
-
+    
         $product = Product::find($id);
         $product->update($request->all());
-
-        return redirect()->route('products.index');
+    
+        return redirect()->route('products.show', $id)->with('success', 'Barang berhasil diperbarui');
     }
 
     public function confirmDelete($id)
@@ -87,6 +105,6 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->delete();
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Barang berhasil dihapus');
     }
 }

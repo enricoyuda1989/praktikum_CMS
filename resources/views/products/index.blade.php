@@ -6,6 +6,12 @@
 <div class="container py-5">
         <h1 class="text-center mb-4">Daftar Barang</h1>
 
+        @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+    </div>
+        @endif
+
         <div class="d-flex justify-content-start mb-3">
             <a href="{{ route('products.create') }}" class="btn btn-primary">
                 <i class="bi bi-plus-lg"></i> Tambah Barang
