@@ -14,9 +14,10 @@
 
     <div class="card p-4 shadow-sm">
         <p><strong>Deskripsi:</strong> {{ $product['description'] }}</p>
+        <p><strong>Kategori:</strong> {{ $product['category_id'] }}</p>
+        <p><strong>Supplier:</strong> {{ $product['supplier_id'] }}</p>
         <p><strong>Stok:</strong> {{ $product['stock'] }}</p>
         <p><strong>Harga:</strong> Rp{{ number_format($product['price'], 0, ',', '.') }}</p>
-        <p><strong>Kategori:</strong> {{ $product['category_id'] }}</p>
 
         <div class="d-grid gap-2 mt-4">
             <a href="{{ route('products.edit', $product['id']) }}" class="btn btn-warning text-dark">Edit Barang</a>

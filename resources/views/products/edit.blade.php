@@ -27,6 +27,11 @@
         </div>
 
         <div class="mb-3">
+            <label for="supplier_id" class="form-label">Supplier:</label>
+            <input type="text" class="form-control" name="supplier_id" id="supplier_id" value="{{ old('supplier_id', $product['supplier_id']) }}">
+        </div>
+
+        <div class="mb-3">
             <label for="stock" class="form-label">Stok:</label>
             <input type="number" class="form-control" name="stock" id="stock" value="{{ old('stock', $product['stock']) }}">
         </div>

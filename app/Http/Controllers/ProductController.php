@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Supplier;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+    $sortOrder = $request->query('sort', 'asc');
+    $products = Product::with(['category', 'supplier'])->orderBy('category_id', $sortOrder)->get();
+    $totalProducts = $products->count();
+
+    return view('products.index', compact('products', 'totalProducts', 'sortOrder'));
     }
 
     public function show($id)
@@ -34,12 +39,14 @@ class ProductController extends Controller
     $request->validate([
         'name' => 'required',
         'category_id' => 'required|numeric',
+        'supplier_id' => 'required|numeric',
         'stock' => 'required|numeric',
         'price' => 'required|numeric',
         'description' => 'required',
     ], [
         'name.required' => 'Nama wajib diisi!',
         'category_id.required' => 'Kategori wajib diisi!',
+        'supplier_id.required' => 'Kategori wajib diisi!',
         'stock.required' => 'Stok wajib diisi!',
         'stock.numeric' => 'Stok harus berupa angka!',
         'price.required' => 'Harga wajib diisi!',
@@ -69,12 +76,14 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'category_id' => 'required|numeric',
+            'supplier_id' => 'required|numeric',
             'stock' => 'required|numeric',
             'price' => 'required|numeric',
             'description' => 'required',
         ], [
             'name.required' => 'Nama wajib diisi!',
             'category_id.required' => 'Kategori wajib diisi!',
+            'supplier_id.required' => 'Kategori wajib diisi!',
             'stock.required' => 'Stok wajib diisi!',
             'stock.numeric' => 'Stok harus berupa angka!',
             'price.required' => 'Harga wajib diisi!',

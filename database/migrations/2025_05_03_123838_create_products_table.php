@@ -10,17 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('category_id');
-            $table->string('name');
-            $table->integer('stock');
-            $table->decimal('price', 10, 2);
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('products', function (Blueprint $table) {
+        $table->id();
+        $table->unsignedBigInteger('category_id');
+        $table->string('name');
+        $table->integer('stock');
+        $table->decimal('price', 10, 2);
+        $table->text('description')->nullable();
+        $table->timestamps();
+
+        $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+    });
+}
 
     public function callSeeder(): void {
     Artisan::call('db:seed', [
