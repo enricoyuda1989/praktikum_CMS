@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SupplierController;
 
 Route::redirect('/', '/products');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -16,3 +18,7 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('pr
 Route::get('/upload', [ImageController::class, 'create']);
 Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');
 Route::delete('/image/delete/{id}', [ImageController::class, 'destroy'])->name('image.delete');
+Route::resource('categories', CategoryController::class);
+Route::get('categories/{id}/confirm-delete', [CategoryController::class, 'confirmDelete'])->name('categories.confirmDelete');
+Route::resource('suppliers', SupplierController::class);
+Route::get('suppliers/{id}/confirm-delete', [SupplierController::class, 'confirmDelete'])->name('suppliers.confirmDelete');

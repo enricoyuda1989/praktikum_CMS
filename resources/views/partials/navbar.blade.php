@@ -35,6 +35,18 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="{{ route('categories.index') }}">
+            <i class="fas fa-tags"></i>
+            <p>Kategori</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('suppliers.index') }}">
+            <i class="fas fa-truck"></i>
+            <p>Supplier</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="{{ route('products.index') }}">
             <i class="fas fa-luggage-cart"></i>
             <p>Transaksi Masuk</p>
