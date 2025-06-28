@@ -53,8 +53,8 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('products.index') }}">
-            <i class="fas fa-file-invoice-dollar"></i>
+          <a href="{{ route('reports.index') }}">
+            <i class="fas fa-file-alt"></i>
             <p>Laporan</p>
           </a>
         </li>

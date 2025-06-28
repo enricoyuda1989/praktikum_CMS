@@ -6,6 +6,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReportController;
 
 Route::redirect('/', '/products');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -24,3 +25,4 @@ Route::get('categories/{id}/confirm-delete', [CategoryController::class, 'confir
 Route::resource('suppliers', SupplierController::class);
 Route::get('suppliers/{id}/confirm-delete', [SupplierController::class, 'confirmDelete'])->name('suppliers.confirmDelete');
 Route::resource('transactions', TransactionController::class)->only(['index', 'create', 'store']);
+Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
