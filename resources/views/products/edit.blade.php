@@ -23,17 +23,28 @@
 
         <div class="mb-3">
             <label for="category_id" class="form-label">Kategori:</label>
-            <input type="text" class="form-control" name="category_id" id="category_id" value="{{ old('category_id', $product['category_id']) }}">
+            <select name="category_id" id="category_id" class="form-select" required>
+                <option disabled selected>Pilih Kategori</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}"
+                        {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
-        <div class="mb-3">
+       <div class="mb-3">
             <label for="supplier_id" class="form-label">Supplier:</label>
-            <input type="text" class="form-control" name="supplier_id" id="supplier_id" value="{{ old('supplier_id', $product['supplier_id']) }}">
-        </div>
-
-        <div class="mb-3">
-            <label for="stock" class="form-label">Stok:</label>
-            <input type="number" class="form-control" name="stock" id="stock" value="{{ old('stock', $product['stock']) }}">
+            <select name="supplier_id" id="supplier_id" class="form-select" required>
+                <option disabled selected>Pilih Supplier</option>
+                @foreach ($suppliers as $supplier)
+                    <option value="{{ $supplier->id }}"
+                        {{ old('supplier_id', $product->supplier_id) == $supplier->id ? 'selected' : '' }}>
+                        {{ $supplier->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mb-3">

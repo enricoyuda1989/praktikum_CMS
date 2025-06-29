@@ -24,12 +24,26 @@
 
                 <div class="mb-3">
                     <label for="category_id" class="form-label">Kategori:</label>
-                    <input type="text" id="category_id" name="category_id" class="form-control" value="{{ old('category_id') }}">
+                    <select id="category_id" name="category_id" class="form-select" required>
+                        <option value="" disabled selected>Pilih Kategori</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                  <div class="mb-3">
                     <label for="supplier_id" class="form-label">Supplier:</label>
-                    <input type="text" id="supplier_id" name="supplier_id" class="form-control" value="{{ old('supplier_id') }}">
+                    <select id="supplier_id" name="supplier_id" class="form-select" required>
+                        <option value="" disabled selected>Pilih Supplier</option>
+                        @foreach($suppliers as $supplier)
+                            <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
+                                {{ $supplier->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="mb-3">

@@ -21,26 +21,29 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        try {
-            $product = Product::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            abort(404);
-        }
+    try {
+        $product = Product::with(['category', 'supplier'])->findOrFail($id);
+    } catch (ModelNotFoundException $e) {
+        abort(404);
+    }
 
-        return view('products.show', compact('product'));
+    return view('products.show', compact('product'));
     }
 
     public function create()
     {
-        return view('products.create');
+    $categories = \App\Models\Category::all();
+    $suppliers = \App\Models\Supplier::all();
+
+    return view('products.create', compact('categories', 'suppliers'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'category_id' => 'required|numeric',
-            'supplier_id' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
             'stock' => 'required|numeric',
             'price' => 'required|numeric',
             'description' => 'required',
@@ -56,28 +59,38 @@ class ProductController extends Controller
             'numeric' => 'Nilai pada kolom :attribute harus berupa angka.',
         ]);
 
-        Product::create($request->all());
+        Product::create([
+        'name' => $request->name,
+        'category_id' => $request->category_id,
+        'supplier_id' => $request->supplier_id,
+        'stock' => $request->stock,
+        'price' => $request->price,
+        'description' => $request->description,
+        ]);
 
         return redirect()->route('products.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
     public function edit($id)
     {
-        try {
-            $product = Product::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            abort(404);
-        }
+    try {
+        $product = Product::findOrFail($id);
+    } catch (ModelNotFoundException $e) {
+        abort(404);
+    }
 
-        return view('products.edit', compact('product'));
+        $categories = \App\Models\Category::all();
+        $suppliers = \App\Models\Supplier::all();
+
+        return view('products.edit', compact('product', 'categories', 'suppliers'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'category_id' => 'required|numeric',
-            'supplier_id' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+            'supplier_id' => 'required|exists:suppliers,id',
             'stock' => 'required|numeric',
             'price' => 'required|numeric',
             'description' => 'required',
