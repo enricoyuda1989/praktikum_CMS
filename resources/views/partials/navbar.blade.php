@@ -23,9 +23,9 @@
     <div class="sidebar-content">
       <ul class="nav nav-secondary">
         <li class="nav-item">
-          <a href="{{ url('/') }}">
-            <i class="fas fa-home"></i>
-            <p>Dashboard</p>
+          <a href="{{ route('dashboard') }}" class="nav-link">
+            <i class="fa fa-home"></i>
+            <span>Dashboard</span>
           </a>
         </li>
         <li class="nav-item">
