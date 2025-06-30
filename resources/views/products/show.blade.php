@@ -14,7 +14,7 @@
 
     <div class="card p-4 shadow-sm">
             @if($product->image)
-                <img src="{{ asset('storage/' . $product->image->image_path) }}" alt="Gambar {{ $product->image->title }}" width="300" class="d-block mx-auto mb-4">
+                <img src="{{ asset($product->image->image_path) }}" alt="Gambar {{ $product->image->title }}" width="200" class="d-block mx-auto my-3">
             @endif
         <p><strong>Deskripsi:</strong> {{ $product['description'] }}</p>
         <p><strong>Kategori:</strong> {{ $product->category->name ?? '-' }}</p>

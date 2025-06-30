@@ -109,7 +109,7 @@ class ProductController extends Controller
         'stock' => 'required|numeric',
         'price' => 'required|numeric',
         'description' => 'required',
-        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ], [
         'name.required' => 'Nama wajib diisi!',
         'category_id.required' => 'Kategori wajib diisi!',
@@ -141,8 +141,13 @@ class ProductController extends Controller
     $imageName = time() . '.' . $imageFile->getClientOriginalExtension();
     $imageFile->move(public_path('uploads'), $imageName);
 
-    $image = Image::where('product_id', $id)->first();
+$image = Image::where('product_id', $id)->first();
     if ($image) {
+        // (Opsional) hapus file lama
+        if (file_exists(public_path($image->image_path))) {
+            unlink(public_path($image->image_path));
+        }
+
         $image->update([
             'title' => $request->name,
             'image_path' => 'uploads/' . $imageName,

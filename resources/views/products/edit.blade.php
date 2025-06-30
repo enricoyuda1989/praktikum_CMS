@@ -63,8 +63,10 @@
             <label for="image" class="form-label">Ubah Gambar Produk</label>
             <input type="file" name="image" class="form-control" accept="image/*">
         </div>
-        @if ($product->image)
-        <img src="{{ asset('storage/' . $product->image->image_path) }}" alt="Gambar {{ $product->image->title }}" width="200" class="d-block my-2">
+         @if($product->image)
+            <div class="text-center">
+                <img src="{{ asset($product->image->image_path) }}" alt="Gambar {{ $product->image->title }}" width="200" class="d-block mx-auto my-3 rounded shadow">
+            </div>
         @endif
 
         <div class="d-grid gap-2">

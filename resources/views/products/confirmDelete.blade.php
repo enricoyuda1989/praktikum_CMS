@@ -11,8 +11,8 @@
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <h3 class="text-center mb-4">{{ $product['name'] }}</h3>
-            @if($product->image)
-                <img src="{{ asset('storage/' . $product->image->image_path) }}" alt="Gambar {{ $product->image->title }}" width="300" class="d-block mx-auto mb-4">
+            @if ($product->image)
+            <img src="{{ asset($product->image->image_path) }}" alt="Gambar {{ $product->name }}" class="img-fluid d-block mx-auto my-3 rounded shadow" style="max-height: 200px;">
             @endif
             <p><strong>Deskripsi:</strong> {{ $product['description'] }}</p>
             <p><strong>Stok:</strong> {{ $product['stock'] }}</p>
