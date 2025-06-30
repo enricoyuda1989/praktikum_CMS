@@ -14,7 +14,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('products.store') }}" method="POST">
+            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-3">
@@ -60,6 +60,11 @@
                     <label for="description" class="form-label">Deskripsi:</label>
                     <textarea id="description" name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
                 </div>
+
+               <div class="mb-3">
+                    <label for="image" class="form-label">Gambar Produk</label>
+                    <input class="form-control" type="file" id="image" name="image">
+                </div>  
 
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="{{ route('products.index') }}" class="btn btn-secondary ms-2">← Kembali</a>

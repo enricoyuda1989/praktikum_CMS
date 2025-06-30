@@ -27,4 +27,9 @@ class Product extends Model
     {
     return $this->belongsTo(Supplier::class);
     }
+
+    public function image()
+    {
+    return $this->hasOne(Image::class);
+    }
 }

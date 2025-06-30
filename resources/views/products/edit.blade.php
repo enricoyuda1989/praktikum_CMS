@@ -12,7 +12,7 @@
     </div>
 @endif
 
-    <form action="{{ route('products.update', $product['id']) }}" method="POST" class="card p-4 shadow-sm">
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -52,10 +52,20 @@
             <input type="number" class="form-control" name="price" id="price" value="{{ old('price', $product['price']) }}">
         </div>
 
+        <input type="hidden" name="stock" value="{{ $product->stock }}">
+
         <div class="mb-3">
             <label for="description" class="form-label">Deskripsi:</label>
             <textarea name="description" id="description" class="form-control" rows="4">{{ old('description', $product['description']) }}</textarea>
         </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Ubah Gambar Produk</label>
+            <input type="file" name="image" class="form-control" accept="image/*">
+        </div>
+        @if ($product->image)
+        <img src="{{ asset('storage/' . $product->image->image_path) }}" alt="Gambar {{ $product->image->title }}" width="200" class="d-block my-2">
+        @endif
 
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>

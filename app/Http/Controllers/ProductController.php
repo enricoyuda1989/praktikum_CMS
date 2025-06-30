@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductController extends Controller
@@ -19,10 +20,10 @@ class ProductController extends Controller
         return view('products.index', compact('products', 'totalProducts', 'sortOrder'));
     }
 
-    public function show($id)
+   public function show($id)
     {
     try {
-        $product = Product::with(['category', 'supplier'])->findOrFail($id);
+        $product = Product::with(['category', 'supplier', 'image'])->findOrFail($id);
     } catch (ModelNotFoundException $e) {
         abort(404);
     }
@@ -39,38 +40,51 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'category_id' => 'required|exists:categories,id',
-            'stock' => 'required|numeric',
-            'price' => 'required|numeric',
-            'description' => 'required',
-        ], [
-            'name.required' => 'Nama wajib diisi!',
-            'category_id.required' => 'Kategori wajib diisi!',
-            'supplier_id.required' => 'Kategori wajib diisi!',
-            'stock.required' => 'Stok wajib diisi!',
-            'stock.numeric' => 'Stok harus berupa angka!',
-            'price.required' => 'Harga wajib diisi!',
-            'price.numeric' => 'Harga harus berupa angka!',
-            'description.required' => 'Deskripsi wajib diisi!',
-            'numeric' => 'Nilai pada kolom :attribute harus berupa angka.',
-        ]);
+{
+    $request->validate([
+        'name' => 'required',
+        'category_id' => 'required|exists:categories,id',
+        'supplier_id' => 'required|exists:suppliers,id',
+        'stock' => 'required|numeric',
+        'price' => 'required|numeric',
+        'description' => 'required',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // validasi gambar
+    ], [
+        'name.required' => 'Nama wajib diisi!',
+        'category_id.required' => 'Kategori wajib diisi!',
+        'supplier_id.required' => 'Supplier wajib diisi!',
+        'stock.required' => 'Stok wajib diisi!',
+        'stock.numeric' => 'Stok harus berupa angka!',
+        'price.required' => 'Harga wajib diisi!',
+        'price.numeric' => 'Harga harus berupa angka!',
+        'description.required' => 'Deskripsi wajib diisi!',
+        'images.*.image' => 'File harus berupa gambar.',
+        'images.*.mimes' => 'Gambar harus berformat jpeg, png, jpg, gif, atau svg.',
+        'images.*.max' => 'Ukuran gambar maksimal 2MB.',
+    ]);
 
-        Product::create([
+    $product = Product::create([
         'name' => $request->name,
         'category_id' => $request->category_id,
         'supplier_id' => $request->supplier_id,
         'stock' => $request->stock,
         'price' => $request->price,
         'description' => $request->description,
-        ]);
+    ]);
 
-        return redirect()->route('products.index')->with('success', 'Barang berhasil ditambahkan.');
+   if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('uploads', 'public');
+
+        Image::create([
+            'title' => $request->name,
+            'image_path' => $imagePath,
+            'product_id' => $product->id,
+        ]);
     }
 
+    return redirect()->route('products.index')->with('success', 'Barang berhasil ditambahkan.');
+}
+    
     public function edit($id)
     {
     try {
@@ -85,47 +99,83 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'categories', 'suppliers'));
     }
 
+
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'stock' => 'required|numeric',
-            'price' => 'required|numeric',
-            'description' => 'required',
-        ], [
-            'name.required' => 'Nama wajib diisi!',
-            'category_id.required' => 'Kategori wajib diisi!',
-            'supplier_id.required' => 'Kategori wajib diisi!',
-            'stock.required' => 'Stok wajib diisi!',
-            'stock.numeric' => 'Stok harus berupa angka!',
-            'price.required' => 'Harga wajib diisi!',
-            'price.numeric' => 'Harga harus berupa angka!',
-            'description.required' => 'Deskripsi wajib diisi!',
-            'numeric' => 'Nilai pada kolom :attribute harus berupa angka.',
+{
+    $request->validate([
+        'name' => 'required',
+        'category_id' => 'required|exists:categories,id',
+        'supplier_id' => 'required|exists:suppliers,id',
+        'stock' => 'required|numeric',
+        'price' => 'required|numeric',
+        'description' => 'required',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ], [
+        'name.required' => 'Nama wajib diisi!',
+        'category_id.required' => 'Kategori wajib diisi!',
+        'supplier_id.required' => 'Kategori wajib diisi!',
+        'stock.required' => 'Stok wajib diisi!',
+        'stock.numeric' => 'Stok harus berupa angka!',
+        'price.required' => 'Harga wajib diisi!',
+        'price.numeric' => 'Harga harus berupa angka!',
+        'description.required' => 'Deskripsi wajib diisi!',
+        'images.*.image' => 'File harus berupa gambar.',
+        'images.*.mimes' => 'Gambar harus berformat jpeg, png, jpg, gif, atau svg.',
+        'images.*.max' => 'Ukuran gambar maksimal 2MB.',
+    ]);
+
+    try {
+        $product = Product::findOrFail($id);
+
+        $product->update([
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
+            'stock' => $request->stock,
+            'price' => $request->price,
+            'description' => $request->description,
         ]);
 
-        try {
-            $product = Product::findOrFail($id);
-            $product->update($request->all());
-        } catch (ModelNotFoundException $e) {
-            abort(404);
-        }
+    if ($request->hasFile('image')) {
+    $imageFile = $request->file('image');
+    $imageName = time() . '.' . $imageFile->getClientOriginalExtension();
+    $imageFile->move(public_path('uploads'), $imageName);
 
-        return redirect()->route('products.show', $id)->with('success', 'Barang berhasil diperbarui');
+    $image = Image::where('product_id', $id)->first();
+    if ($image) {
+        $image->update([
+            'title' => $request->name,
+            'image_path' => 'uploads/' . $imageName,
+        ]);
+    } else {
+        Image::create([
+            'title' => $request->name,
+            'image_path' => 'uploads/' . $imageName,
+            'product_id' => $id,
+        ]);
     }
+}
+
+
+    } catch (ModelNotFoundException $e) {
+        abort(404);
+    }
+
+    return redirect()->route('products.show', $id)->with('success', 'Barang berhasil diperbarui');
+}
+
 
     public function confirmDelete($id)
-    {
-        try {
-            $product = Product::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            abort(404);
-        }
-
-        return view('products.confirmDelete', compact('product'));
+{
+    try {
+        $product = Product::with(['category', 'supplier', 'image'])->findOrFail($id);
+    } catch (ModelNotFoundException $e) {
+        abort(404);
     }
+
+    return view('products.confirmdelete', compact('product'));
+}
+
 
     public function destroy($id)
     {

@@ -25,6 +25,7 @@ class ImageController extends Controller
         $image = Image::create([
             'title' => $request->title,
             'image_path' => $imagePath,
+            'product_id' => $request->product_id,
         ]);
 
         return view('upload', ['image' => $image])->with('success', 'gambar berhasil diupload');
