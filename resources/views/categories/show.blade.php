@@ -18,10 +18,14 @@
         <p><strong>Deskripsi:</strong> {{ $category['description'] }}</p>
 
         <div class="d-grid gap-2 mt-4">
+    @auth
+        @if (auth()->user()->role === 'admin')
             <a href="{{ route('categories.edit', $category['id']) }}" class="btn btn-warning text-dark">Edit Barang</a>
             <a href="{{ route('categories.confirmDelete', $category['id']) }}" class="btn btn-danger">Hapus Barang</a>
-            <a href="{{ route('categories.index') }}" class="btn btn-secondary">← Kembali</a>
-        </div>
+        @endif
+    @endauth
+    <a href="{{ route('categories.index') }}" class="btn btn-secondary">← Kembali</a>
+</div>
     </div>
 </div>
 @endsection

@@ -5,11 +5,15 @@
     <h1 class="text-center mb-4 text-dark fw-semibold">DAFTAR KATEGORI</h1>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="{{ route('categories.create') }}" class="btn btn-primary">
-            + Tambah Kategori
-        </a>
-        <p class="mb-0 text-muted">Total Kategori: {{ $categories->count() }}</p>
-    </div>
+    @auth
+        @if (auth()->user()->role === 'admin')
+            <a href="{{ route('categories.create') }}" class="btn btn-primary">
+                + Tambah Kategori
+            </a>
+        @endif
+    @endauth
+    <p class="mb-0 text-muted">Total Kategori: {{ $categories->count() }}</p>
+</div>
 
     @if ($categories->count())
     <div class="table-responsive">

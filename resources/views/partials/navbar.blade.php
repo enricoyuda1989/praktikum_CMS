@@ -21,6 +21,17 @@
 
   <div class="sidebar-wrapper scrollbar scrollbar-inner">
     <div class="sidebar-content">
+      @auth
+<div class="user-box d-flex align-items-center px-3 py-2 mb-2">
+  <div class="avatar me-2">
+    <i class="fas fa-user-circle fa-2x me-2"></i>
+  </div>
+  <div class="info text-white-50 small">
+    <div class="fw-semibold text-white text-uppercase">{{ auth()->user()->role }}</div>
+    <div>{{ auth()->user()->email }}</div>
+  </div>
+</div>
+@endauth
       <ul class="nav nav-secondary">
         <li class="nav-item">
           <a href="{{ route('dashboard') }}" class="nav-link">
@@ -58,6 +69,18 @@
             <p>Laporan</p>
           </a>
         </li>
+      @auth
+        <li class="nav-item">
+          <a href="{{ route('logout') }}"
+             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="fas fa-sign-out-alt"></i>
+            <p>Logout</p>
+          </a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+          </form>
+        </li>
+        @endauth
       </ul>
     </div>
   </div>

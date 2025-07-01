@@ -4,12 +4,16 @@
 <div class="container py-4">
     <h1 class="text-center mb-4 text-dark fw-semibold">DAFTAR SUPPLIER</h1>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="{{ route('suppliers.create') }}" class="btn btn-primary">
-            + Tambah Supplier
-        </a>
-        <p class="mb-0 text-muted">Total Supplier: {{ $suppliers->count() }}</p>
-    </div>
+   <div class="d-flex justify-content-between align-items-center mb-3">
+    @auth
+        @if (auth()->user()->role === 'admin')
+            <a href="{{ route('suppliers.create') }}" class="btn btn-primary">
+                + Tambah Supplier
+            </a>
+        @endif
+    @endauth
+    <p class="mb-0 text-muted">Total Supplier: {{ $suppliers->count() }}</p>
+</div>
 
     @if ($suppliers->count())
     <div class="table-responsive">

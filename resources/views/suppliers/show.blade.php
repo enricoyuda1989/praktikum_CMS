@@ -19,10 +19,14 @@
         <p><strong>Alamat:</strong> {{ $supplier['address'] ?? '-' }}</p>
 
         <div class="d-grid gap-2 mt-4">
+    @auth
+        @if (auth()->user()->role === 'admin')
             <a href="{{ route('suppliers.edit', $supplier['id']) }}" class="btn btn-warning text-dark">Edit Supplier</a>
             <a href="{{ route('suppliers.confirmDelete', $supplier['id']) }}" class="btn btn-danger">Hapus Supplier</a>
-            <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">← Kembali</a>
-        </div>
+        @endif
+    @endauth
+    <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">← Kembali</a>
+</div>
     </div>
 </div>
 @endsection

@@ -23,8 +23,13 @@
         <p><strong>Harga:</strong> Rp{{ number_format($product['price'], 0, ',', '.') }}</p>
 
         <div class="d-grid gap-2 mt-4">
-            <a href="{{ route('products.edit', $product['id']) }}" class="btn btn-warning text-dark">Edit Barang</a>
-            <a href="{{ route('products.confirmDelete', $product['id']) }}" class="btn btn-danger">Hapus Barang</a>
+        @auth
+            @if (auth()->user()->role === 'admin')
+                <a href="{{ route('products.edit', $product['id']) }}" class="btn btn-warning text-dark">Edit Barang</a>
+                <a href="{{ route('products.confirmDelete', $product['id']) }}" class="btn btn-danger">Hapus Barang</a>
+            @endif
+        @endauth
+
             <a href="{{ route('products.index') }}" class="btn btn-secondary">← Kembali</a>
         </div>
     </div>
