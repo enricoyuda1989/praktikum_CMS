@@ -96,7 +96,7 @@ class ProductController extends Controller
 
         } catch (\Exception $e) {
             Log::error('Gagal menambahkan produk', ['message' => $e->getMessage()]);
-            return back()->withErrors('Terjadi kesalahan saat menambahkan produk.');
+            return back()->withErrors('Terdapat kesalahan saat menambahkan produk.');
         }
 
         return redirect()->route('products.index')->with('success', 'Barang berhasil ditambahkan.');
