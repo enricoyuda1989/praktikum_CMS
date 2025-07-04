@@ -10,6 +10,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AuthController;
 
+
 Route::redirect('/', '/dashboard');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -55,7 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/{id}', [CategoryController::class, 'show'])
         ->where('id', '[0-9]+')->name('categories.show');
-        
+
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
     Route::get('/suppliers/{id}', [SupplierController::class, 'show'])
         ->where('id', '[0-9]+')->name('suppliers.show');
