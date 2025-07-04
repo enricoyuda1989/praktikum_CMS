@@ -13,7 +13,7 @@
     @endif
 
     <div class="card p-4 shadow-sm">
-            @if($product->image)
+         @if($product->image)
                 <img src="{{ asset($product->image->image_path) }}" alt="Gambar {{ $product->image->title }}" width="200" class="d-block mx-auto my-3">
             @endif
         <p><strong>Deskripsi:</strong> {{ $product['description'] }}</p>

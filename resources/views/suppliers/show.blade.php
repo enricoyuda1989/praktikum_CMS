@@ -22,10 +22,15 @@
     @auth
         @if (auth()->user()->role === 'admin')
             <a href="{{ route('suppliers.edit', $supplier['id']) }}" class="btn btn-warning text-dark">Edit Supplier</a>
-            <a href="{{ route('suppliers.confirmDelete', $supplier['id']) }}" class="btn btn-danger">Hapus Supplier</a>
+            
+            <form action="{{ route('suppliers.destroy', $supplier['id']) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus supplier ini?')" class="d-grid gap-2 mt-2">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Hapus Supplier</button>
+            </form>
         @endif
     @endauth
-    <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">← Kembali</a>
+    <a href="{{ route('suppliers.index') }}" class="btn btn-secondary mt-2">← Kembali</a>
 </div>
     </div>
 </div>
